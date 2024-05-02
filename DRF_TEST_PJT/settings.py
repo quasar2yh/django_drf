@@ -31,8 +31,19 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-CUSTOM_APPS = os.environ.get('CUSTOM_APPS').split(',')
-SYSTEM_APPS = os.environ.get('SYSTEM_APPS').split(',')
+CUSTOM_APPS = ['accounts',
+               'products,profiles',
+               ]
+SYSTEM_APPS = ['django.contrib.admin,django.contrib.auth',
+               'django.contrib.contenttypes',
+               'django.contrib.sessions',
+               'django.contrib.messages',
+               'django.contrib.staticfiles',
+               'django_extensions',
+               'django_seed',
+               'rest_framework',
+               'drf_spectacular',
+               ]
 INSTALLED_APPS = SYSTEM_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
@@ -92,9 +103,15 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'accounts.User'
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'DRF TEST PROJECT',
+    'DESCRIPTION': 'API that implements the basic functions of the market',
 }
 
 SIMPLE_JWT = {
