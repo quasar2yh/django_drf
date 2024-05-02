@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 CUSTOM_APPS = ['accounts',
-               'products,profiles',
+               'products',
+               'profiles',
                ]
 SYSTEM_APPS = ['django.contrib.admin,django.contrib.auth',
                'django.contrib.contenttypes',
