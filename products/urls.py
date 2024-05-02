@@ -4,7 +4,6 @@ from . import views
 
 app_name = "products"
 
-
 # ViewSet을 Router에 등록
 router = DefaultRouter()
 router.register("", views.ProductViewSet, basename='product')
