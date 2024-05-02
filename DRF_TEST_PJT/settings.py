@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,8 +31,20 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-CUSTOM_APPS = os.environ.get('CUSTOM_APPS').split(',')
-SYSTEM_APPS = os.environ.get('SYSTEM_APPS').split(',')
+CUSTOM_APPS = ['accounts',
+               'products',
+               'profiles',
+               ]
+SYSTEM_APPS = ['django.contrib.admin,django.contrib.auth',
+               'django.contrib.contenttypes',
+               'django.contrib.sessions',
+               'django.contrib.messages',
+               'django.contrib.staticfiles',
+               'django_extensions',
+               'django_seed',
+               'rest_framework',
+               'drf_spectacular',
+               ]
 INSTALLED_APPS = SYSTEM_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
@@ -91,10 +104,23 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'accounts.User'
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'DRF TEST PROJECT',
+    'DESCRIPTION': 'API that implements the basic functions of the market',
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False, }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -119,3 +145,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # custom
+# Media files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
