@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 
 class UserViewSet(viewsets.ViewSet):
 
+    # 회원가입
     def create(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
