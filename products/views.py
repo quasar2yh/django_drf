@@ -45,3 +45,22 @@ class ProductViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        product = get_object_or_404(Product, pk=pk)
+        if product.author != request.user:
+            raise PermissionDenied(
+                "You do not have permission to edit this product.")
+
+        serializer = ProductSerializer(
+            product, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(author=request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        product = get_object_or_404(Product, pk=pk)
+        product.delete()
+        data = {"pk": f"(no.{pk} article) '{product.title}' is deleted."}
+        return Response(data, status=status.HTTP_204_NO_CONTENT)
