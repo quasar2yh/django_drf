@@ -12,16 +12,9 @@ app_name = "accounts"
 urlpatterns = [
     path("signin/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path('', UserViewSet.as_view({'post': 'create'}), name='signup'),
+    path('<str:username>/',
+         UserViewSet.as_view({'get': 'retrieve'}), name='profile'),
+    path('followings/<str:username>/',
+         FollowingViewSet.as_view({'put': 'update'}), name='followings'),
 ]
-
-# 회원 가입
-urlpatterns += [path('',
-                     UserViewSet.as_view({'post': 'create'}), name='signup')]
-
-# 프로필
-urlpatterns += [path('<str:username>/',
-                     UserViewSet.as_view({'get': 'retrieve'}), name='profile')]
-
-# 팔로잉
-urlpatterns += [path('followings/<str:username>/',
-                     FollowingViewSet.as_view({'put': 'update'}), name='followings')]
