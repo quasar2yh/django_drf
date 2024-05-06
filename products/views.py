@@ -20,6 +20,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         'create': [permissions.IsAuthenticated],
         'list': [permissions.IsAuthenticatedOrReadOnly],
         'update': [permissions.IsAuthenticated],
+        'delete': [permissions.IsAuthenticated],
     }
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
@@ -61,6 +62,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, pk=None):
         product = get_object_or_404(Product, pk=pk)
+        if product.author != request.user:
+            raise PermissionDenied(
+                "You do not have permission to delete this product.")
         product.delete()
         data = {"pk": f"(no.{pk} article) '{product.title}' is deleted."}
         return Response(data, status=status.HTTP_204_NO_CONTENT)
