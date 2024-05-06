@@ -4,6 +4,7 @@ from .views import (UserViewSet, FollowingViewSet)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenBlacklistView,
 )
 
 app_name = "accounts"
@@ -12,7 +13,8 @@ app_name = "accounts"
 urlpatterns = [
     path("signin/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path('', UserViewSet.as_view({'post': 'create'}), name='signup'),
+    path('signup/', UserViewSet.as_view({'post': 'create'}), name='signup'),
+    path('logout/', UserViewSet.as_view({'post': 'logout'}), name='logout'),
     path('<str:username>/',
          UserViewSet.as_view({'get': 'retrieve'}), name='profile'),
     path('followings/<str:username>/',
