@@ -45,6 +45,7 @@ SYSTEM_APPS = ['django.contrib.admin',
                'django_seed',
                'rest_framework',
                'drf_spectacular',
+               'rest_framework_simplejwt.token_blacklist',
                ]
 INSTALLED_APPS = SYSTEM_APPS + CUSTOM_APPS
 
@@ -121,11 +122,13 @@ SPECTACULAR_SETTINGS = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=360),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=180),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False, }
+    "UPDATE_LAST_LOGIN": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
